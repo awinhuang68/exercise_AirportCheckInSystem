@@ -1,5 +1,7 @@
 #include <iostream>
 #include "Flight.h"
+#include "bookingDatetime.h"
+#include "booking.h"
 
 int main() {
     std::cout << "Hello, World!" << std::endl;
@@ -9,7 +11,7 @@ int main() {
         "American Airlines",
         "JFK",
         "LAX",
-        DateTime(),
+        BookingDateTime("2024-06-01 10:00:00"),
         FlightStatus::Scheduled
     );
 

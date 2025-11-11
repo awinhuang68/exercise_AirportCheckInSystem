@@ -15,7 +15,7 @@ public:
     }
 
     ~BookingDateTime() {
-        std::cout << "Destructing BookingDateTime: " << m_datetime << std::endl;
+        // std::cout << "Destructing BookingDateTime: " << m_datetime << std::endl;
     }
 
     auto getDateTime() const -> std::string {

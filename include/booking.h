@@ -28,11 +28,11 @@ public:
     }
 
     ~Booking() {
-        std::cout << "Destructing Booking: " << std::endl;
-        std::cout << "    Booking ID    : " << m_bookingID << std::endl;
-        std::cout << "    Flight Number : " << m_flightNumber << std::endl;
-        std::cout << "    Seat Number   : " << m_seatNumber << std::endl;
-        std::cout << "    Booking Status: " << static_cast<int>(m_bookingStatus) << std::endl;
+        // std::cout << "Destructing Booking: " << std::endl;
+        // std::cout << "    Booking ID    : " << m_bookingID << std::endl;
+        // std::cout << "    Flight Number : " << m_flightNumber << std::endl;
+        // std::cout << "    Seat Number   : " << m_seatNumber << std::endl;
+        // std::cout << "    Booking Status: " << static_cast<int>(m_bookingStatus) << std::endl;
     }
 
     auto getBookingID() const -> std::string {

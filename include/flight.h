@@ -34,12 +34,12 @@ public:
     }
 
     ~Flight() {
-        std::cout << "Destructing Flight: " << std::endl;
-        std::cout << "    Flight Number     : " << m_flightNumber << std::endl;
-        std::cout << "    Airline           : " << m_airline << std::endl;
-        std::cout << "    Departure Location: " << m_departureLocation << std::endl;
-        std::cout << "    Destination       : " << m_destination << std::endl;
-        std::cout << "    Flight Status     : " << static_cast<int>(m_flightStatus) << std::endl;
+        // std::cout << "Destructing Flight: " << std::endl;
+        // std::cout << "    Flight Number     : " << m_flightNumber << std::endl;
+        // std::cout << "    Airline           : " << m_airline << std::endl;
+        // std::cout << "    Departure Location: " << m_departureLocation << std::endl;
+        // std::cout << "    Destination       : " << m_destination << std::endl;
+        // std::cout << "    Flight Status     : " << static_cast<int>(m_flightStatus) << std::endl;
     }
 
     auto getFlightNumber() const -> std::string {
@@ -64,6 +64,21 @@ public:
 
     auto getFlightStatus() const -> FlightStatus {
         return m_flightStatus;
+    }
+
+    auto getFlightStatusString() const -> std::string {
+        switch (m_flightStatus) {
+            case FlightStatus::Scheduled:
+                return "Scheduled";
+            case FlightStatus::Boarding:
+                return "Boarding";
+            case FlightStatus::Departed:
+                return "Departed";
+            case FlightStatus::Delayed:
+                return "Delayed";
+            default:
+                return "Unknown";
+        }
     }
 
 private:

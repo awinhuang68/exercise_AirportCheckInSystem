@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #include <iostream>
 
@@ -9,11 +11,15 @@ public:
         const std::string& id
     ) : id(id)
     {
-        std::cout << "Constructing Passenger: " << id << std::endl;
+        // std::cout << "Constructing Passenger: " << id << std::endl;
     }
 
     ~Passenger() {
-        std::cout << "Destructing Passenger: " << id << std::endl;
+        // std::cout << "Destructing Passenger: " << id << std::endl;
+    }
+
+    auto getID() const -> std::string {
+        return id;
     }
 
 private:

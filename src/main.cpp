@@ -6,20 +6,21 @@
 #include "bookingDatetime.h"
 #include "booking.h"
 #include "passenger.h"
+#include "checkin.h"
 
 
-using PassengerPtr = std::shared_ptr<Passenger>;
+using PassengerPtr = std::unique_ptr<Passenger>;
 using FlightPtr = std::shared_ptr<Flight>;
-using BookingPtr = std::shared_ptr<Booking>;
-using PassengerPtr = std::shared_ptr<Passenger>;
+using BookingPtr = std::unique_ptr<Booking>;
 using FlightList = std::vector<FlightPtr>;
 using BookingList = std::vector<BookingPtr>;
 using PassengerList = std::vector<PassengerPtr>;
 
 
 FlightList flights;
+PassengerPtr passenger = nullptr;
+BookingPtr booking = nullptr;
 std::weak_ptr<Flight> choosenFlight;
-PassengerPtr passenger;
 
 
 
@@ -116,6 +117,8 @@ void doBooking() {
 
     // Simulate booking process
     printf("Booking flight number: %s\n", choosenFlight.lock()->getFlightNumber().c_str());
+    booking = createBooking(passenger, choosenFlight.lock());
+    printf("Booking completed. Booking ID: %s\n", booking->getBookingID().c_str());
 }
 
 void doCheckIn() {
@@ -124,8 +127,27 @@ void doCheckIn() {
         return;
     }
 
+    if (booking == nullptr) {
+        printf("No booking found. Please book a flight first.\n");
+        return;
+    }
+
     // Simulate check-in process
     printf("Checking in for flight number: %s\n", choosenFlight.lock()->getFlightNumber().c_str());
+    auto checkIn = std::make_unique<CheckIn>();
+    ERR_CODE result = checkIn->Process(booking);
+    if (result == ERR_CODE::SUCCESS) {
+        printf("Check-in successful for Booking ID: %s\n", booking->getBookingID().c_str());
+        printf("Check-In information:\n");
+        printf("  Check-In ID    : %s\n", checkIn->getCheckInId().c_str());
+        printf("  Booking ID     : %s\n", checkIn->getBookingId().c_str());
+        printf("  Flight Number  : %s\n", checkIn->getFlightNumber().c_str());
+        printf("  Check-In Time  : %s\n", checkIn->getCheckInTime().c_str());
+        printf("  Check-In Status: %d\n", static_cast<int>(checkIn->getCheckInStatus()));
+        printf("  Staff ID       : %s\n", checkIn->getStaffID().c_str());
+    } else {
+        printf("Check-in failed with error code: %d\n", static_cast<int>(result));
+    }
 }
 
 void showStatus() {
@@ -142,6 +164,14 @@ void showStatus() {
     } else {
         printf("No Flight Chosen\n");
     }
+
+    if (booking) {
+        printf("Booking ID: %s, status: %s\n",
+            booking->getBookingID().c_str(),
+            booking->getBookingStatusString().c_str());
+    } else {
+        printf("No Booking\n");
+    }
 }
 
 int main() {
@@ -152,7 +182,7 @@ int main() {
     // Get input
     std::string passengerId;
     std::cin >> passengerId;
-    passenger = std::make_shared<Passenger>(passengerId);
+    passenger = std::make_unique<Passenger>(passengerId);
 
     while (true) {
         // Prompt user for input
